@@ -52,7 +52,7 @@ public class LocationGeneratorTest {
             put(Location.SquirrelHill, 0);
             put(Location.ThePoint, 0);
         }};
-        int nullCount = 0;
+        int nullCount = 0, locCount = 0;
         for (int i = 0; i < ITERATIONS; i++) {
             Location loc = locgen.getLocationOrLeave();
             if (loc == null) {
@@ -64,11 +64,12 @@ public class LocationGeneratorTest {
         boolean locationFlag = false,
                 nullFlag = Math.abs(((double) nullCount / ITERATIONS) - 0.2d) <= THRESHOLD;
         for (Location location : locMap.keySet()) {
+            locCount++;
             if (Math.abs(((double) locMap.get(location) / ITERATIONS) - 0.2d) > THRESHOLD) {
                 break;
             }
-            locationFlag = true;
         }
+        locationFlag = (locCount == 4);
         Assert.assertTrue(locationFlag && nullFlag);
     }
 }
