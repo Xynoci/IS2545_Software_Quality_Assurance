@@ -21,5 +21,5 @@ Course repo for IS2545 - Software Quality Assurance. Instructed by [Dustin Iser]
 
    - [Report](./deliverables/deliverable_2_unit_test.md)
    - [CitySim9002](./src/main/java/citysim9002)
-   - [Tests](https://github.com/Xynoci/IS2545_Software_Quality_Assurance/tree/master/src/test/java/hw2)
+   - [Tests](./src/test/java/hw2)
 
