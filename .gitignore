@@ -1,4 +1,4 @@
 .idea
-src/main/
 IS2545_Software_Quality_Assurance.iml
 target/
+**/*.class
