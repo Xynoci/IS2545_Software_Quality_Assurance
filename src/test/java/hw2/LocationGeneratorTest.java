@@ -72,6 +72,10 @@ public class LocationGeneratorTest {
         }
     }
 
+    /**
+     * FUN-FIRST-VISIT. For the first visit for a given Visitor, the Visitor cannot leave the City.
+     * The Visitor must visit at least one Location.
+     */
     @Test
     public void ifExistOnFirstVisit() {
         for (int i = 0; i < ITERATIONS; i++) {

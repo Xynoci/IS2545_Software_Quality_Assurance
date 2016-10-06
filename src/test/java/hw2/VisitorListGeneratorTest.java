@@ -33,6 +33,10 @@ public class VisitorListGeneratorTest {
         Assert.assertTrue(flag);
     }
 
+    /**
+     * FUN-FIVE-VISITORS. Five visitors, numbered 1 through 5, shall traverse the City, one after
+     * the other.
+     */
     @Test
     public void isThereFiveVisitorsGenerated() throws Exception {
         int numberOfVisitorsExpected = 5;
