@@ -1,4 +1,4 @@
-package citysim9002;
+package citysim9002.base;
 
 public abstract class Visitor {
     public Visitor() {}

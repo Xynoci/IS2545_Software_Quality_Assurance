@@ -1,6 +1,6 @@
 package hw2;
 
-import citysim9002.Visitor;
+import citysim9002.base.Visitor;
 
 /**
  * Created by Xynoci on 10/5/16.

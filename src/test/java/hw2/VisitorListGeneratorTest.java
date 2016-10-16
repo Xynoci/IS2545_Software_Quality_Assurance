@@ -6,8 +6,8 @@ import org.junit.Test;
 import java.util.LinkedList;
 import java.util.Random;
 
-import citysim9002.Visitor;
-import citysim9002.VisitorListGenerator;
+import citysim9002.base.Visitor;
+import citysim9002.service.VisitorListGenerator;
 
 /**
  * Created by Xynoci on 10/5/16.

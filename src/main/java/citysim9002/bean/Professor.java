@@ -1,4 +1,7 @@
-package citysim9002;
+package citysim9002.bean;
+
+import citysim9002.base.Location;
+import citysim9002.base.Visitor;
 
 public class Professor extends Visitor {
 	public Professor() { super(); }

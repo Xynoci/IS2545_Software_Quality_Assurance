@@ -1,4 +1,7 @@
-package citysim9002;
+package citysim9002.service;
+
+import citysim9002.base.Generator;
+import citysim9002.base.Location;
 
 /*
  *The simple but elegant **towntest** is forked from
@@ -31,7 +34,7 @@ public class LocationGenerator extends Generator {
         return locationList[this.nextInt(upperBound)];
     }
 
-    String getLocationNameString(Location location) {
+    public String getLocationNameString(Location location) {
         switch (location) {
             case CathedralOfLearning:
                 return "The Cathedral of Learning";

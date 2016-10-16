@@ -1,6 +1,11 @@
-package citysim9002;
+package citysim9002.entry;
 
 import java.util.LinkedList;
+
+import citysim9002.base.Location;
+import citysim9002.base.Visitor;
+import citysim9002.service.LocationGenerator;
+import citysim9002.service.VisitorListGenerator;
 
 /*
  *The simple but elegant **towntest** is forked from

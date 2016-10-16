@@ -6,8 +6,8 @@ import org.junit.Test;
 import java.util.HashMap;
 import java.util.Random;
 
-import citysim9002.Location;
-import citysim9002.LocationGenerator;
+import citysim9002.base.Location;
+import citysim9002.service.LocationGenerator;
 
 /**
  * Created by Xynoci on 10/1/16.

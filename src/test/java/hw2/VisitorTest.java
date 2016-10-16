@@ -3,19 +3,11 @@ package hw2;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.ListIterator;
-import java.util.Random;
-
-import citysim9002.Blogger;
-import citysim9002.BusinessPerson;
-import citysim9002.Location;
-import citysim9002.LocationGenerator;
-import citysim9002.Professor;
-import citysim9002.Student;
-import citysim9002.Visitor;
-import citysim9002.VisitorListGenerator;
+import citysim9002.base.Location;
+import citysim9002.bean.Blogger;
+import citysim9002.bean.BusinessPerson;
+import citysim9002.bean.Professor;
+import citysim9002.bean.Student;
 
 /**
  * Created by Xynoci on 10/1/16.
