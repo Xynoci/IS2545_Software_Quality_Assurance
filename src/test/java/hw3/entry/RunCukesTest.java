@@ -1,4 +1,4 @@
-package hw3;
+package hw3.entry;
 
 /**
  * Created by Xynoci on 10/16/16.

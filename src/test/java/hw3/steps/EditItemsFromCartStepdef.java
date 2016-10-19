@@ -1,5 +1,15 @@
 package hw3.steps;
 
+import org.junit.Assert;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebElement;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+
 import cucumber.api.java8.En;
 import hw3.base.BaseGherkin;
 
@@ -7,4 +17,97 @@ import hw3.base.BaseGherkin;
  * Created by Xynoci on 10/18/16.
  */
 public class EditItemsFromCartStepdef extends BaseGherkin implements En {
+    private final int iPhone5 = 32;
+    private final int magicMouse = 40;
+    private final int iPodNanoBlue = 64;
+    private ArrayList<String> itemsInCart = new ArrayList(Arrays.asList("iPhone 5", "Magic Mouse", "iPod Nano Blue"));
+    private int[] numberToBeAdded = new int[]{2, 1, 1};
+    private int[] itemList = new int[]{iPhone5, magicMouse, iPodNanoBlue};
+    private HashMap<String, Integer> itemMap = new HashMap<>();
+
+    public EditItemsFromCartStepdef() {
+
+        Given("^I got several items in cart$", () -> {
+            super.initDriver(super.DEFAULT_DRIVER);
+            driver.get(BASE_URL + ALL_PRODUCTS);
+            for (int i = 0; i < itemList.length; i++) {
+                addItemsToCartOnTheAllPage(numberToBeAdded[i], itemList[i]);
+                itemMap.put(itemsInCart.get(i), numberToBeAdded[i]);
+            }
+            int expectedTotal = 4,
+                    cartTotal = Integer.parseInt(driver.findElement(By.className("count")).getText());
+            Assert.assertEquals(expectedTotal, cartTotal);
+        });
+
+        Given("^I'm about to checkout$", () -> {
+            driver.navigate().to(BASE_URL + SHOPPING_CART);
+        });
+
+        When("^I try to remove one \"([^\"]*)\" from the list$", (String itemName) -> {
+            int originalCount = Integer.parseInt(driver.findElement(By.className("count")).getText());
+            WebElement theAnchor = driver.findElement(By.xpath("//tr/td/a[.='" + itemName + "']")),
+                    removeButton = theAnchor.findElement(By.xpath("..//..//input[@value='Remove']"));
+            removeButton.click();
+            waitUntil(d -> Integer.parseInt(d.findElement(By.className("count")).getText()) != originalCount);
+        });
+
+        When("^I modify the amount of \"([^\"]*)\" as (-?\\d+)$", (String item, Integer expectedAmount) -> {
+            int originalCount = Integer.parseInt(driver.findElement(By.className("count")).getText());
+            WebElement theAnchor = driver.findElement(By.xpath("//tr/td/a[.='" + item + "']")),
+                    itemQuantity = theAnchor.findElement(By.xpath("..//..//input[@name='quantity']"));
+            itemQuantity.clear();
+            itemQuantity.sendKeys(String.valueOf(expectedAmount));
+            WebElement updateButton = theAnchor.findElement(By.xpath("..//..//input[@value='Update']"));
+            updateButton.click();
+            waitUntil(d -> Integer.parseInt(d.findElement(By.className("count")).getText()) != originalCount);
+        });
+
+        Then("^I should see the amount of \"([^\"]*)\" changed corresponding to the (-?\\d+)$", (String item, Integer expectedAmount) -> {
+            Assert.assertTrue(expectedAmount <= 0 ? isRemoved(item) : isAmountCorrect(item, expectedAmount));
+
+        });
+
+        Then("^the rest except the modified \"([^\"]*)\" are remains untouched$", (String item) -> {
+            Assert.assertTrue(restUntouched(item));
+            driver.quit();
+        });
+
+        Then("^I should see the \"([^\"]*)\" removed from the list$", (String itemName) -> {
+            Assert.assertTrue(isRemoved(itemName));
+        });
+
+        Then("^the rest except the removed \"([^\"]*)\" are still there$", (String removedItem) -> {
+            Assert.assertTrue(restUntouched(removedItem));
+            driver.quit();
+        });
+    }
+
+    private boolean isRemoved(String itemName) {
+        try {
+            driver.findElement(By.xpath("//tr/td/a[.='" + itemName + "']"));
+            return false;
+        } catch (NoSuchElementException e) {
+            return true;
+        }
+    }
+
+    private boolean restUntouched(String removedItem) {
+        itemsInCart.remove(removedItem);
+        try {
+            itemsInCart.forEach(item -> {
+                driver.findElement(By.xpath("//tr/td/a[.='" + item + "']"));
+                Assert.assertTrue(isAmountCorrect(item, itemMap.get(item)));
+            });
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    private boolean isAmountCorrect(String item, int expectedAmount) {
+        WebElement theAnchor = driver.findElement(By.xpath("//tr/td/a[.='" + item + "']")),
+                itemQuantity = theAnchor.findElement(By.xpath("..//..//input[@name='quantity']"));
+        int theAmount = Integer.parseInt(itemQuantity.getAttribute("value"));
+        return expectedAmount == theAmount;
+    }
 }

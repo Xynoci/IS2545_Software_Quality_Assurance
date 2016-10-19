@@ -2,15 +2,21 @@ package hw3.base;
 
 import com.google.common.base.Predicate;
 
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.support.ui.FluentWait;
+import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.concurrent.TimeUnit;
 
 import hw3.utils.OSValidator;
 
@@ -40,7 +46,7 @@ public class BaseGherkin {
     private void initLocalDriver(int driverType) {
         String osPath = OSValidator.getOSAndArchString(),
                 suffix = OSValidator.isWindows() ? ".exe" : "",
-                driverPath = "src/test/java/resources/driver/" + osPath + "/geckodriver" + suffix;
+                driverPath = "resources/driver/" + osPath + "/geckodriver" + suffix;
         System.setProperty("webdriver.gecko.driver", driverPath);
         switch (driverType) {
             case FIREFOX:
@@ -69,11 +75,34 @@ public class BaseGherkin {
         }
     }
 
+    protected void addItemsToCartOnTheAllPage(Integer amount, Integer productIndex) {
+        if (amount != 0) {
+            WebElement itemForm = driver.findElement(By.xpath("//form[@name='product_" + productIndex + "']"));
+            for (int i = 0; i < amount; i++) {
+                int originalCount = Integer.parseInt(driver.findElement(By.className("count")).getText());
+                itemForm.submit();
+                waitUntil(d -> Integer.parseInt(d.findElement(By.className("count")).getText()) != originalCount);
+                driver.findElement(By.className("continue_shopping")).click();
+            }
+        }
+    }
+
+    // Stackoverflow: by eugene.polschikov
+    // http://stackoverflow.com/questions/12858972/how-can-i-ask-the-selenium-webdriver-to-wait-for-few-seconds-in-java
+    protected WebElement fluentWait(final By locator) {
+        Wait<WebDriver> wait = new FluentWait<>(driver)
+                .withTimeout(30, TimeUnit.SECONDS)
+                .pollingEvery(5, TimeUnit.SECONDS)
+                .ignoring(NoSuchElementException.class);
+
+        return wait.until(d -> d.findElement(locator));
+    }
+
     protected void shutDriverDown() {
         driver.quit();
     }
 
-    public void waitUntil(Predicate<WebDriver> predicate) {
+    protected void waitUntil(Predicate<WebDriver> predicate) {
         wait.until(predicate);
     }
 }

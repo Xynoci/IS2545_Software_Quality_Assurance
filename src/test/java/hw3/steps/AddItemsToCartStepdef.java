@@ -83,41 +83,28 @@ public class AddItemsToCartStepdef extends BaseGherkin implements En {
         Then("^I should see total number is (\\d+)$", (Integer expectedCount) -> {
             WebElement cartCounter = driver.findElement(By.className("count"));
             Assert.assertEquals(expectedCount.intValue(), Integer.parseInt(cartCounter.getText()));
+            driver.quit();
         });
 
         Then("^I should see total number for \"([^\"]*)\" are (\\d+),(\\d+),(\\d+)$", (String itemNameList, Integer ExpectedNumOfIPhone5, Integer ExpectedNumOfMagicMouse, Integer ExpectedNumOfIPodNanoBlue) -> {
             String[] itemNames = itemNameList.split(", ");
             Integer[] ExpectedResults = new Integer[]{ExpectedNumOfIPhone5, ExpectedNumOfMagicMouse, ExpectedNumOfIPodNanoBlue};
             for (int i = 0; i < itemNames.length; i++) {
-                WebElement itemRow = driver.findElement(By.xpath("//tr/td/a[.='" + itemNames[i] + "']")),
-                        itemQuantity = itemRow.findElement(By.xpath("..//..//input[@name='quantity']"));
+                WebElement theAnchor = driver.findElement(By.xpath("//tr/td/a[.='" + itemNames[i] + "']")),
+                        itemQuantity = theAnchor.findElement(By.xpath("..//..//input[@name='quantity']"));
                 Assert.assertEquals(ExpectedResults[i].intValue(), Integer.parseInt(itemQuantity.getAttribute("value")));
             }
+            driver.quit();
         });
 
         Then("^I check the shopping cart$", () -> {
-            driver.get(BASE_URL + SHOPPING_CART);
+            driver.navigate().to(BASE_URL + SHOPPING_CART);
         });
 
         Then("^I move to the home page$", () -> {
             driver.navigate().to(BASE_URL);
         });
 
-        Then("^quit the application$", () -> {
-            driver.quit();
-        });
-
     }
 
-    private void addItemsToCartOnTheAllPage(Integer amount, Integer productIndex) {
-        if (amount != 0) {
-            WebElement itemForm = driver.findElement(By.xpath("//form[@name='product_" + productIndex + "']"));
-            for (int i = 0; i < amount; i++) {
-                int originalCount = Integer.parseInt(driver.findElement(By.className("count")).getText());
-                itemForm.submit();
-                waitUntil(d -> Integer.parseInt(d.findElement(By.className("count")).getText()) != originalCount);
-                driver.findElement(By.className("continue_shopping")).click();
-            }
-        }
-    }
 }

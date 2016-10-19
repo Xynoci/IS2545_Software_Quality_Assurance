@@ -57,9 +57,6 @@ public class LoginValidateStepdef extends BaseGherkin implements En {
                     System.err.println("LoginValidateStepdef: unexpected status.");
                     break;
             }
-        });
-
-        Then("^I am done$", () -> {
             driver.quit();
         });
 

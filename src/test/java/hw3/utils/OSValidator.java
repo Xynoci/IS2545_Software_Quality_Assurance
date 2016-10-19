@@ -1,8 +1,8 @@
 package hw3.utils;
 
 /**
- * Forked from [kiuz](https://gist.github.com/kiuz/816e24aa787c2d102dd0) Modified by Xynoci on
- * 10/16/16.
+ * Forked from [kiuz](https://gist.github.com/kiuz/816e24aa787c2d102dd0)
+ * Modified by Xynoci on 10/16/16.
  */
 public class OSValidator {
     public static final String WINDOWS = "win";
