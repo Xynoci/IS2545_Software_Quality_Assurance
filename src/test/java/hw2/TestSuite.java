@@ -9,9 +9,9 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 
 @Suite.SuiteClasses({
-//        VisitorListGeneratorTest.class,
-//        LocationGeneratorTest.class,
-//        VisitorTest.class
+        VisitorListGeneratorTest.class,
+        LocationGeneratorTest.class,
+        VisitorTest.class
 })
 
 public class TestSuite {

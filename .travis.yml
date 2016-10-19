@@ -1,3 +1,9 @@
 language: java
 jdk:
-- oraclejdk8
+  - oraclejdk8
+env:
+  - SAUCE_USERNAME=xynoci
+addons:
+  sauce_connect: true
+  jwt:
+    secure: kDiT91Sz9BrCOe57A1BqTdQ/+M080BQCfSq35Miii9aw6k5QzVX2tP0zhfa1axhY5rTSq3V5gZsMpWJ7lec3KhyBK2WsSuaTYP1mq1rwR+myfgadqTGMnMJz757skipjk4NT8s7yKvhYFUONH6YXxqkvl+amg58N+ssW37xE7kxy9XSgFuHd+a5a+ZeJm4U2HxHRAQrCOdteNKtwZDZiJBJxaWySSj7zODXzthgnJ4w+LaY7dp2WiOOrpP25/YPbr9MKoaBGAOUNkFmGJMe1OrPCICvJo4OaW0E9OkTYJJXaaWNBWhs/MsH3bWWHzOIHpqilNwMLD8XBW8URY2svyVMIZsoZijtedm7G0hJ3SH07RLuEYqJX8OhwJeFNTTBwBAzGXFhAyldVkKbX0GFPheiztogDmjiiU8pZs8K9+Qx9pvKxtmxalXrh1ROLKgBmqjheS97R24yN9SJ76Z2OoJuwzPAFThxXp5QUokcDWNFnJAZsNS/+l0avpLGgWoSEt0+ONbpwBvU5hvDHcuVIJzSqOkdkE0oIJeWORjl/QShUPZJRP/fAW5AT6+vyu+Vo5jjvZFReLc+kVFWcuZu+02+U0I/iPUmyPpWi8Dauwxus2XbUYaTwtx1e88W6jesaidF0RjDwk5seAK6roHYwiLXUwYFjKmo+3aeBiUl55d8=

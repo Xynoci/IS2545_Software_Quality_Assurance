@@ -1,0 +1,130 @@
+## IS2545 - DELIVERABLE 3: Testing in BDD [![Build Status](https://travis-ci.org/Xynoci/IS2545_Software_Quality_Assurance.svg?branch=master)](https://travis-ci.org/Xynoci/IS2545_Software_Quality_Assurance)
+
+[Chukun Xia, chx26](mailto:chukun.xia@pitt.edu) 
+
+### User Stories and Scenarios
+
+#### User story 1
+
+```
+As a user
+I would like to log in to my account
+So that I can ... (I don't know 😂)
+```
+
+##### Scenarios
+
+```cucumber
+Feature: Login to the store
+  Scenario Outline: Login to the store using valid and invalid credentials
+    Given I'm about to "login"
+    When I try to log in using <name> and <pass>
+    Then I should see whether they are <valid> or not
+      And I am done
+
+    Examples: Valid credentials
+      | name         | pass                | valid     |
+      | "test@a"     | "$Q^)0%aWw*AVNLyG"  | "valid"   |
+    Examples: Incorrect user name
+      | name         | pass                | valid     |
+      | "test@fake"  | "$Q^)0%aWw*AVNLyG"  | "invalid" |
+      | "test@wrong" | "$Q^)0%aWw*AVNLyG"  | "invalid" |
+    Examples: Incorrect password
+      | name         | pass                | valid     |
+      | "test@a"     | "incorrectpassword" | "invalid" |
+
+```
+
+#### User story 2
+
+```
+As a user
+I would like to add items to my shopping cart
+So that I can place my order later
+```
+
+##### Scenarios
+
+```cucumber
+Feature: Adding items to shopping cart
+  Scenario Outline: Adding one item to empty cart from 'All Product'
+    Given I'm on "all products" page
+    When I try to add 1 <item>
+    Then I should see total number is 1
+      And quit the application
+
+    Examples:
+      | item name        | item |
+      | "iPhone 5"       | 32   |
+      | "Magic Mouse"    | 40   |
+      | "iPod Nano Blue" | 64   |
+
+  Scenario Outline: Adding one item to cart already contains item from 'All Product'
+    Given I'm on "all products" page
+      And <several> <items> already in the cart
+    When I try to add <number> of <items> into the cart
+    Then I check the shopping cart
+      And I should see total number for <item name> are <total>
+      And quit the application
+
+    Examples: Items haven't been added before
+      | item name                               | items    | several | number | total |
+      | "iPhone 5, Magic Mouse, iPod Nano Blue" | 32,40,64 | 0,0,1   | 1,1,0  | 1,1,1 |
+    Examples: Items have been added before
+      | item name                               | items    | several | number | total |
+      | "iPhone 5, Magic Mouse, iPod Nano Blue" | 32,40,64 | 0,1,1   | 1,1,0  | 1,2,1 |
+      | "iPhone 5, Magic Mouse, iPod Nano Blue" | 32,40,64 | 1,1,1   | 1,1,1  | 2,2,2 |
+      | "iPhone 5, Magic Mouse, iPod Nano Blue" | 32,40,64 | 0,1,1   | 4,2,1  | 4,3,2 |
+
+  Scenario Outline: Adding items to cart on different page
+    Given I'm on "all products" page
+      And I added <several> <items> to the cart
+    Then I move to the home page
+    When I try to add <number> of <item name> into the cart from home page
+    Then I check the shopping cart
+      And I should see total number for <item name> are <total>
+      And quit the application
+
+    Examples: Items haven't been added before
+      | item name                               | items    | several | number | total |
+      | "iPhone 5, Magic Mouse, iPod Nano Blue" | 32,40,64 | 0,0,1   | 1,1,0  | 1,1,1 |
+    Examples: Items have been added before
+      | item name                               | items    | several | number | total |
+      | "iPhone 5, Magic Mouse, iPod Nano Blue" | 32,40,64 | 0,1,1   | 1,1,0  | 1,2,1 |
+      | "iPhone 5, Magic Mouse, iPod Nano Blue" | 32,40,64 | 1,1,1   | 1,1,1  | 2,2,2 |
+      | "iPhone 5, Magic Mouse, iPod Nano Blue" | 32,40,64 | 0,1,1   | 4,0,1  | 4,1,2 |
+
+```
+
+#### User story 3
+
+```
+As a user
+I would like to change number of items to checkout in my shopping cart
+So that I can easily modify my order before checkout
+```
+
+### Tests
+
+#### Test concerns
+
+
+### Configs for local runs
+
+The tests are currently run on *[Sauce Lab](https://saucelabs.com/)* using remote driver. Uncommenting the `initLocalDriver(driverType)` and commenting the `initRomoteDriver()` to run them on local.
+
+```java
+    protected void initDriver(int driverType) {
+        //initLocalDriver(driverType);
+        initRomoteDriver();
+        wait = new WebDriverWait(driver, 60);
+    }
+```
+
+### References and notes
+- [org.openqa.selenium.ElementNotVisibleException: Cannot click on element" in WebDriver(IE9)](http://stackoverflow.com/questions/23730615/org-openqa-selenium-elementnotvisibleexception-cannot-click-on-element-in-webd)
+- [Using Sauce Labs with Travis CI](https://docs.travis-ci.com/user/sauce-connect/)
+- [Sauce Lab: Java Test Setup Example](https://wiki.saucelabs.com/display/DOCS/Java+Test+Setup+Example)
+- [Sauce Lab: Best Practices for Running Tests](https://wiki.saucelabs.com/display/DOCS/Best+Practices+for+Running+Tests)
+
+
