@@ -39,8 +39,8 @@ public class BaseGherkin implements En{
     protected WebDriverWait wait;
 
     protected void initDriver(int driverType) {
-        initLocalDriver(driverType);
-//        initRomoteDriver();
+//        initLocalDriver(driverType);
+        initRomoteDriver();
         wait = new WebDriverWait(driver, 60);
     }
 
