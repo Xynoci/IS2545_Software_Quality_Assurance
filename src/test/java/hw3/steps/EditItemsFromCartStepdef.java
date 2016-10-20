@@ -3,6 +3,7 @@ package hw3.steps;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
 
 import java.util.ArrayList;
@@ -43,7 +44,8 @@ public class EditItemsFromCartStepdef extends ShoppingCartGherkin implements En 
             WebElement theAnchor = driver.findElement(By.xpath("//tr/td/a[.='" + itemName + "']")),
                     removeButton = theAnchor.findElement(By.xpath("..//..//input[@value='Remove']"));
             removeButton.click();
-            waitUntil(d -> Integer.parseInt(d.findElement(By.className("count")).getText()) != originalCount);
+            waitPageStartRefreshAfterClick(originalCount, "count");
+            waitForPageLoaded();
         });
 
         When("^I modify the amount of \"([^\"]*)\" as (-?\\d+)$", (String item, Integer expectedAmount) -> {
@@ -54,12 +56,12 @@ public class EditItemsFromCartStepdef extends ShoppingCartGherkin implements En 
             itemQuantity.sendKeys(String.valueOf(expectedAmount));
             WebElement updateButton = theAnchor.findElement(By.xpath("..//..//input[@value='Update']"));
             updateButton.click();
-            waitUntil(d -> Integer.parseInt(d.findElement(By.className("count")).getText()) != originalCount);
+            waitPageStartRefreshAfterClick(originalCount, "count");
+            waitForPageLoaded();
         });
 
         Then("^I should see the amount of \"([^\"]*)\" changed corresponding to the (-?\\d+)$", (String item, Integer expectedAmount) -> {
             Assert.assertTrue(expectedAmount <= 0 ? isRemoved(item) : isAmountCorrect(item, expectedAmount));
-
         });
 
         Then("^the rest except the modified \"([^\"]*)\" are remains untouched$", (String item) -> {
@@ -104,5 +106,13 @@ public class EditItemsFromCartStepdef extends ShoppingCartGherkin implements En 
                 itemQuantity = theAnchor.findElement(By.xpath("..//..//input[@name='quantity']"));
         int theAmount = Integer.parseInt(itemQuantity.getAttribute("value"));
         return expectedAmount == theAmount;
+    }
+
+    private void waitPageStartRefreshAfterClick(int referenceMarkerValue, String referenceMarkerClassName) {
+        try {
+            waitUntil(d -> Integer.parseInt(d.findElement(By.className(referenceMarkerClassName)).getText()) != referenceMarkerValue);
+        } catch (StaleElementReferenceException e) {
+            return;
+        }
     }
 }

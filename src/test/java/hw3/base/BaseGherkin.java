@@ -2,7 +2,9 @@ package hw3.base;
 
 import com.google.common.base.Predicate;
 
+import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -10,6 +12,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -24,7 +27,7 @@ import hw3.utils.OSValidator;
 /**
  * Created by Xynoci on 10/16/16.
  */
-public class BaseGherkin implements En{
+public class BaseGherkin implements En {
     public final int DEFAULT_DRIVER = 1;
     public final int FIREFOX = 2;
     public final int CHROME = 3;
@@ -67,8 +70,8 @@ public class BaseGherkin implements En{
         caps.setCapability("platform", "OS X 10.11");
         caps.setCapability("version", "49.0");
         caps.setCapability("name", "IS2545 Web BDD Test");
-        caps.setCapability("tags", "Tag1");
-        caps.setCapability("build", "build-0001");
+        caps.setCapability("tags", "Complete Run");
+        caps.setCapability("build", "build-0002");
         try {
             driver = new RemoteWebDriver(new URL(URL), caps);
         } catch (MalformedURLException e) {
@@ -76,15 +79,27 @@ public class BaseGherkin implements En{
         }
     }
 
-    // Stackoverflow: by eugene.polschikov
-    // http://stackoverflow.com/questions/12858972/how-can-i-ask-the-selenium-webdriver-to-wait-for-few-seconds-in-java
+    /*
+     * Stackoverflow: eugene.polschikov http://stackoverflow.com/questions/12858972/how-can-i-ask-the-selenium-webdriver-to-wait-for-few-seconds-in-java
+     */
     protected WebElement fluentWait(final By locator) {
         Wait<WebDriver> wait = new FluentWait<>(driver)
                 .withTimeout(30, TimeUnit.SECONDS)
                 .pollingEvery(5, TimeUnit.SECONDS)
                 .ignoring(NoSuchElementException.class);
-
         return wait.until(d -> d.findElement(locator));
+    }
+
+    /**
+     * Stackoverflow: Vivek Jain http://stackoverflow.com/questions/13244225/selenium-how-to-make-the-web-driver-to-wait-for-page-to-refresh-before-executin
+     */
+    protected void waitForPageLoaded() {
+        ExpectedCondition<Boolean> expectation = d -> ((JavascriptExecutor) d).executeScript("return document.readyState").equals("complete");
+        try {
+            wait.until(expectation);
+        } catch (Throwable error) {
+            Assert.assertFalse("Timeout waiting for Page Load Request to complete.", true);
+        }
     }
 
     protected void shutDriverDown() {
