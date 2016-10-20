@@ -18,12 +18,13 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
+import cucumber.api.java8.En;
 import hw3.utils.OSValidator;
 
 /**
  * Created by Xynoci on 10/16/16.
  */
-public class BaseGherkin {
+public class BaseGherkin implements En{
     public final int DEFAULT_DRIVER = 1;
     public final int FIREFOX = 2;
     public final int CHROME = 3;
@@ -38,8 +39,8 @@ public class BaseGherkin {
     protected WebDriverWait wait;
 
     protected void initDriver(int driverType) {
-//        initLocalDriver(driverType);
-        initRomoteDriver();
+        initLocalDriver(driverType);
+//        initRomoteDriver();
         wait = new WebDriverWait(driver, 60);
     }
 
@@ -72,18 +73,6 @@ public class BaseGherkin {
             driver = new RemoteWebDriver(new URL(URL), caps);
         } catch (MalformedURLException e) {
             e.printStackTrace();
-        }
-    }
-
-    protected void addItemsToCartOnTheAllPage(Integer amount, Integer productIndex) {
-        if (amount != 0) {
-            WebElement itemForm = driver.findElement(By.xpath("//form[@name='product_" + productIndex + "']"));
-            for (int i = 0; i < amount; i++) {
-                int originalCount = Integer.parseInt(driver.findElement(By.className("count")).getText());
-                itemForm.submit();
-                waitUntil(d -> Integer.parseInt(d.findElement(By.className("count")).getText()) != originalCount);
-                driver.findElement(By.className("continue_shopping")).click();
-            }
         }
     }
 

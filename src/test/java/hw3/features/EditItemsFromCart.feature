@@ -12,7 +12,7 @@ Feature: Edit item information from shopping cart
     Then I should see the <named item> removed from the list
       And the rest except the removed <named item> are still there
 
-    Examples:
+    Examples: remove item
       | named item       | item |
       | "iPhone 5"       | 32   |
       | "Magic Mouse"    | 40   |
@@ -29,10 +29,10 @@ Feature: Edit item information from shopping cart
     Examples: reduced the amount to zero
       | named item       | number |
       | "Magic Mouse"    | 0      |
-    Examples: reduced the amount to nagetive value
+    Examples: reduced the amount to negative value
       | named item       | number |
       | "iPod Nano Blue" | -1     |
-    Examples: add item
+    Examples: add items
       | named item       | number |
       | "iPhone 5"       | 3      |
       | "Magic Mouse"    | 10     |
