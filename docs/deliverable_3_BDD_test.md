@@ -4,8 +4,21 @@
 
 ### Tests
 
-#### Test concerns
- 
+Thanks to this assignment I moved a little bit further on testing considerations, both into some practices and basic priciples. Besides, in order to automate the UI tests powered by [Selenuium](http://docs.seleniumhq.org/) with [Travis CI](https://travis-ci.org/), I spent some time on configuring [Sauce Lab](https://saucelabs.com/) with it, through which I got some idea about corss-browser and cross-platform compatibility test. 
+
+#### Principles
+
+- **Unit tests should be isolated.** It comes from thoughts to the situation that the entire or part of one scenario/test could be preconditions for another. It IS an approach to write reuseable code, only if the test team has just one or very limited testers. Because maintain ordered test run could be a problem when group of testers are collaborating on the task or tests need to be run parallelly, which would be broken by dependencies added to them.
+- **Tests should be small and atomic.** Small and atomic tests will make it easier to locate the origin of problems. If ralevant functions are tested in one test, then it will take more time to locate the broken part.
+
+#### Practice
+- Junit
+  + Use `Assume` to define external assumptions: Unexpected situation happens, especially when tests rely on some external situations. However, tests shouldn't fail due to the unexpected external change. `Assume` handles it by skipping rather than failing the test;
+- Cucumber
+  + Write declarative scenarios: Scenarios shouldn't be influenced by changes in implementing details of functionalities, and also, scenarios need to be easy to read; 
+  + One feature per file;
+  + Group features files by file name prefix;
+  + Group different type of Examples;
 
 ### User Stories and Scenarios
 
@@ -15,7 +28,7 @@
 Feature: Login to the store
   As a user
   I would like to log in to my account
-  So that I can ... (I don't know 😂)
+  So that I can ... (seems nothing on THE site 😂)
 
   Scenario Outline: Login to the store using valid and invalid credentials
     Given I'm about to "login"
@@ -132,6 +145,7 @@ Feature: Edit item information from shopping cart
 The tests are currently run on *[Sauce Lab](https://saucelabs.com/)* using remote driver. Uncommenting the `initLocalDriver(driverType)` and commenting the `initRomoteDriver()` to run them on local.
 
 ```java
+    // hw3.base.BaseGherkin
     protected void initDriver(int driverType) {
         //initLocalDriver(driverType);
         initRomoteDriver();
@@ -140,10 +154,10 @@ The tests are currently run on *[Sauce Lab](https://saucelabs.com/)* using remot
 ```
 
 ### References and notes
-- Sauce Lab: [Write Great Cucumber Tests](https://saucelabs.com/blog/write-great-cucumber-tests)
 - [Cucumber Best Practices](https://github.com/strongqa/howitzer/wiki/Cucumber-Best-Practices)
-- [Using Sauce Labs with Travis CI](https://docs.travis-ci.com/user/sauce-connect/)
-- Sauce Lab: [Java Test Setup Example](https://wiki.saucelabs.com/display/DOCS/Java+Test+Setup+Example)
+- [Selenium Best Practices](https://mestachs.wordpress.com/2012/08/13/selenium-best-practices/)
 - Sauce Lab: [Best Practices for Running Tests](https://wiki.saucelabs.com/display/DOCS/Best+Practices+for+Running+Tests)
+- Sauce Lab: [Java Test Setup Example](https://wiki.saucelabs.com/display/DOCS/Java+Test+Setup+Example)
+- [Using Sauce Labs with Travis CI](https://docs.travis-ci.com/user/sauce-connect/)
 
 

@@ -17,14 +17,7 @@ public class AddItemsToCartStepdef extends ShoppingCartGherkin implements En {
     public AddItemsToCartStepdef() {
         Given("^I'm on \"([^\"]*)\" page$", (String page) -> {
             super.initDriver(super.DEFAULT_DRIVER);
-            switch (page) {
-                case "all products":
-                    driver.get(BASE_URL + ALL_PRODUCTS);
-                    break;
-                default:
-                    System.err.println("page unrecognized.");
-                    break;
-            }
+            navigateTo(page);
         });
 
         Given("^(\\d+),(\\d+),(\\d+) items already in the cart$", (Integer numOfIPhone5, Integer numOfMagicMouse, Integer numOfIPodNanoBlue) -> {
@@ -75,22 +68,7 @@ public class AddItemsToCartStepdef extends ShoppingCartGherkin implements En {
             shutDriverDown();
         });
 
-        Then("^I will find total number of items are (\\d+),(\\d+),(\\d+)$", (Integer ExpectedNumOfIPhone5, Integer ExpectedNumOfMagicMouse, Integer ExpectedNumOfIPodNanoBlue) -> {
-            Assert.assertTrue(checkTheBundleInShoppingCart(new Integer[]{ExpectedNumOfIPhone5, ExpectedNumOfMagicMouse, ExpectedNumOfIPodNanoBlue}));
-            shutDriverDown();
-        });
-
-        Then("^I check the shopping cart$", () -> {
-            driver.navigate().to(BASE_URL + SHOPPING_CART);
-        });
-
-        Then("^I move to the shopping cart$", () -> {
-            driver.navigate().to(BASE_URL + SHOPPING_CART);
-        });
-
-        Then("^I move to the home page$", () -> {
-            driver.navigate().to(BASE_URL);
-        });
+        Then("^I navigate to \"([^\"]*)\"$", this::navigateTo);
 
     }
 

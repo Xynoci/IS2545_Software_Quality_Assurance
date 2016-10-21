@@ -19,7 +19,7 @@ Feature: Adding items to shopping cart
   Scenario Outline: Adding bunch of items to cart from 'All Product'
     Given <several> items already in the cart
     When I try to add <number> of items into the cart
-    Then I check the shopping cart
+    Then I navigate to "shopping cart"
       And I should see total number of items are <total>
 
     Examples: Items haven't been added before
@@ -32,10 +32,10 @@ Feature: Adding items to shopping cart
 
   Scenario Outline: Adding items to cart on different page
     Given I added <several> items to the cart
-    Then I move to the home page
+    Then I navigate to "home page"
     When I try to add <number> of items into the cart from home page
-    Then I move to the shopping cart
-      And I will find total number of items are <total>
+    Then I navigate to "shopping cart"
+      And I should see total number of items are <total>
 
     Examples: Items haven't been added before
       | several | number | total |

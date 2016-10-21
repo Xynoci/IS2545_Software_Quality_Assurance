@@ -6,8 +6,6 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 
 import cucumber.api.java8.En;
@@ -17,7 +15,7 @@ import hw3.base.ShoppingCartGherkin;
  * Created by Xynoci on 10/18/16.
  */
 public class EditItemsFromCartStepdef extends ShoppingCartGherkin implements En {
-    private ArrayList<String> itemsInCart = new ArrayList(Arrays.asList("iPhone 5", "Magic Mouse", "iPod Nano Blue"));
+    private String[] itemsInCart = new String[]{"iPhone 5", "Magic Mouse", "iPod Nano Blue"};
     private int[] numberToBeAdded = new int[]{2, 1, 1};
     private HashMap<String, Integer> itemMap = new HashMap<>();
 
@@ -28,7 +26,7 @@ public class EditItemsFromCartStepdef extends ShoppingCartGherkin implements En 
             int expectedTotal = 0;
             for (int i = 0; i < itemList.length; i++) {
                 addItemsToCartOnTheAllPage(numberToBeAdded[i], itemList[i]);
-                itemMap.put(itemsInCart.get(i), numberToBeAdded[i]);
+                itemMap.put(itemsInCart[i], numberToBeAdded[i]);
                 expectedTotal += numberToBeAdded[i];
             }
             int cartTotal = Integer.parseInt(driver.findElement(By.className("count")).getText());
@@ -89,12 +87,13 @@ public class EditItemsFromCartStepdef extends ShoppingCartGherkin implements En 
     }
 
     private boolean restUntouched(String removedItem) {
-        itemsInCart.remove(removedItem);
         try {
-            itemsInCart.forEach(item -> {
-                driver.findElement(By.xpath("//tr/td/a[.='" + item + "']"));
-                Assert.assertTrue(isAmountCorrect(item, itemMap.get(item)));
-            });
+            for (String anItemsInCart : itemsInCart) {
+                if (!anItemsInCart.equals(removedItem)) {
+                    driver.findElement(By.xpath("//tr/td/a[.='" + anItemsInCart + "']"));
+                    Assert.assertTrue(isAmountCorrect(anItemsInCart, itemMap.get(anItemsInCart)));
+                }
+            }
             return true;
         } catch (Exception e) {
             return false;

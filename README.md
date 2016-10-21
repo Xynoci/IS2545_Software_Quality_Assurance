@@ -19,7 +19,7 @@ Course repo for IS2545 - Software Quality Assurance. Instructed by [Dustin Iser]
 >For this assignment, you (no groups for this assignment!) will write code and unit tests for CitySim9002.  This program should be runnable with the command `java CitySim9002 n` where n is any int.
 
 
-   - [Report](./deliverables/deliverable_2_unit_test.md)
+   - [Report](./docs/deliverable_2_unit_test.md)
    - [CitySim9002](./src/main/java/citysim9002)
    - [Tests](./src/test/java/hw2)
 
@@ -31,5 +31,5 @@ Course repo for IS2545 - Software Quality Assurance. Instructed by [Dustin Iser]
 >   - User stories should all follow the Connextra (as a/i would like to/so that) template. Scenarios should all follow the Given/When/Then template;
 >   - All tests shall correspond to a scenario and vice-versa. There should be one test class per user story.
 
-   - [Report](./deliverables/deliverable_3_BDD_test.md)
+   - [Report](./docs/deliverable_3_BDD_test.md)
    - [Tests](./src/test/java/hw3)

@@ -6,6 +6,7 @@ import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -50,7 +51,7 @@ public class BaseGherkin implements En {
     private void initLocalDriver(int driverType) {
         String osPath = OSValidator.getOSAndArchString(),
                 suffix = OSValidator.isWindows() ? ".exe" : "",
-                driverPath = "resources/driver/" + osPath + "/geckodriver" + suffix;
+                driverPath = "src/test/resources/driver/" + osPath + "/geckodriver" + suffix;
         System.setProperty("webdriver.gecko.driver", driverPath);
         switch (driverType) {
             case FIREFOX:
@@ -79,14 +80,31 @@ public class BaseGherkin implements En {
         }
     }
 
-    /*
+    protected void navigateTo(String page){
+        switch (page) {
+            case "all products":
+                driver.get(BASE_URL + ALL_PRODUCTS);
+                break;
+            case "shopping cart":
+                driver.navigate().to(BASE_URL + SHOPPING_CART);
+                break;
+            case "home page":
+                driver.navigate().to(BASE_URL);
+                break;
+            default:
+                System.err.println("page unrecognized.");
+                break;
+        }
+    }
+
+    /**
      * Stackoverflow: eugene.polschikov http://stackoverflow.com/questions/12858972/how-can-i-ask-the-selenium-webdriver-to-wait-for-few-seconds-in-java
      */
     protected WebElement fluentWait(final By locator) {
         Wait<WebDriver> wait = new FluentWait<>(driver)
                 .withTimeout(30, TimeUnit.SECONDS)
                 .pollingEvery(5, TimeUnit.SECONDS)
-                .ignoring(NoSuchElementException.class);
+                .ignoring(NoSuchElementException.class, StaleElementReferenceException.class);
         return wait.until(d -> d.findElement(locator));
     }
 
