@@ -27,3 +27,5 @@ OPTIONAL `deploy`
 OPTIONAL `after_deploy`
 `after_script`
 
+[How to run travis-ci locally](http://stackoverflow.com/questions/21053657/how-to-run-travis-ci-locally)
+

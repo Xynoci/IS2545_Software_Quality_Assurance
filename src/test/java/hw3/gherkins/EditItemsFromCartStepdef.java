@@ -1,4 +1,4 @@
-package hw3.steps;
+package hw3.gherkins;
 
 import org.junit.Assert;
 import org.openqa.selenium.By;

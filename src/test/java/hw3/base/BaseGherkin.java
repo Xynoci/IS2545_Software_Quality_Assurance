@@ -36,9 +36,9 @@ public class BaseGherkin implements En {
     protected final String SHOPPING_CART = "products-page/checkout/";
     protected final String ALL_PRODUCTS = "products-page/product-category/";
     protected final String LOG_IN = "tools-qa/";
-    private final String USERNAME = "xynoci";
-    private final String ACCESS_KEY = "06c19c21-9567-47f6-84c5-e4143b25a7b0";
-    private final String URL = "http://" + USERNAME + ":" + ACCESS_KEY + "@ondemand.saucelabs.com:80/wd/hub";
+    private final String SAUCE_USERNAME = System.getenv("SAUCE_USERNAME");
+    private final String SAUCE_ACCESS_KEY = System.getenv("SAUCE_ACCESS_KEY");
+    private final String URL = "http://" + SAUCE_USERNAME + ":" + SAUCE_ACCESS_KEY + "@ondemand.saucelabs.com:80/wd/hub";
     protected WebDriver driver;
     protected WebDriverWait wait;
 
@@ -71,8 +71,8 @@ public class BaseGherkin implements En {
         caps.setCapability("platform", "OS X 10.11");
         caps.setCapability("version", "49.0");
         caps.setCapability("name", "IS2545 Web BDD Test");
-        caps.setCapability("tags", "Complete Run");
-        caps.setCapability("build", "build-0002");
+        caps.setCapability("tags", "Complete");
+        caps.setCapability("build", "build-0003");
         try {
             driver = new RemoteWebDriver(new URL(URL), caps);
         } catch (MalformedURLException e) {
@@ -80,7 +80,7 @@ public class BaseGherkin implements En {
         }
     }
 
-    protected void navigateTo(String page){
+    protected void navigateTo(String page) {
         switch (page) {
             case "all products":
                 driver.get(BASE_URL + ALL_PRODUCTS);
