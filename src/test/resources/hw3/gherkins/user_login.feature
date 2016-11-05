@@ -1,7 +1,7 @@
 Feature: Login to the store
   As a user
   I would like to log in to my account
-  So that I can ... (I don't know 😂)
+  So that I can ... (seems nothing on THE site 😂)
 
   Scenario Outline: Login to the store using valid and invalid credentials
     Given I'm about to "login"

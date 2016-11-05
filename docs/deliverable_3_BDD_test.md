@@ -68,33 +68,33 @@ Feature: Adding items to shopping cart
       | "iPod Nano Blue" | 64   |
 
   Scenario Outline: Adding bunch of items to cart from 'All Product'
-    Given <several> <items> already in the cart
-    When I try to add <number> of <items> into the cart
-    Then I check the shopping cart
-      And I should see total number for <item name> are <total>
+    Given <several> items already in the cart
+    When I try to add <number> of items into the cart
+    Then I navigate to "shopping cart"
+      And I should see total number of items are <total>
 
     Examples: Items haven't been added before
-      | item name                               | items    | several | number | total |
-      | "iPhone 5, Magic Mouse, iPod Nano Blue" | 32,40,64 | 0,0,1   | 1,1,0  | 1,1,1 |
+      | several | number | total |
+      | 0,0,1   | 1,1,0  | 1,1,1 |
     Examples: Items have been added before
-      | item name                               | items    | several | number | total |
-      | "iPhone 5, Magic Mouse, iPod Nano Blue" | 32,40,64 | 0,1,1   | 1,1,0  | 1,2,1 |
-      | "iPhone 5, Magic Mouse, iPod Nano Blue" | 32,40,64 | 0,1,1   | 2,2,1  | 2,3,2 |
+      | several | number | total |
+      | 0,1,1   | 1,1,0  | 1,2,1 |
+      | 0,1,1   | 2,2,1  | 2,3,2 |
 
   Scenario Outline: Adding items to cart on different page
-    Given I added <several> <items> to the cart
-    Then I move to the home page
-    When I try to add <number> of <item name> into the cart from home page
-    Then I check the shopping cart
-      And I should see total number for <item name> are <total>
+    Given I added <several> items to the cart
+    Then I navigate to "home page"
+    When I try to add <number> of items into the cart from home page
+    Then I navigate to "shopping cart"
+      And I should see total number of items are <total>
 
     Examples: Items haven't been added before
-      | item name                               | items    | several | number | total |
-      | "iPhone 5, Magic Mouse, iPod Nano Blue" | 32,40,64 | 0,0,1   | 1,1,0  | 1,1,1 |
+      | several | number | total |
+      | 0,0,1   | 1,1,0  | 1,1,1 |
     Examples: Items have been added before
-      | item name                               | items    | several | number | total |
-      | "iPhone 5, Magic Mouse, iPod Nano Blue" | 32,40,64 | 0,1,1   | 1,1,0  | 1,2,1 |
-      | "iPhone 5, Magic Mouse, iPod Nano Blue" | 32,40,64 | 0,1,1   | 2,2,1  | 2,3,2 |
+      | several | number | total |
+      | 0,1,1   | 1,1,0  | 1,2,1 |
+      | 0,1,1   | 2,2,1  | 2,3,2 |
 ```
 
 #### Feature: Edit item information from shopping cart
@@ -114,7 +114,7 @@ Feature: Edit item information from shopping cart
     Then I should see the <named item> removed from the list
       And the rest except the removed <named item> are still there
 
-    Examples:
+    Examples: remove item
       | named item       | item |
       | "iPhone 5"       | 32   |
       | "Magic Mouse"    | 40   |
@@ -131,10 +131,10 @@ Feature: Edit item information from shopping cart
     Examples: reduced the amount to zero
       | named item       | number |
       | "Magic Mouse"    | 0      |
-    Examples: reduced the amount to nagetive value
+    Examples: reduced the amount to negative value
       | named item       | number |
       | "iPod Nano Blue" | -1     |
-    Examples: add item
+    Examples: add items
       | named item       | number |
       | "iPhone 5"       | 3      |
       | "Magic Mouse"    | 10     |
